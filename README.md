@@ -4,7 +4,7 @@ Network Topology Diagram Builder is a web application that allows you to create 
 
 ## Demo
 
-Check out the [demo](demo_link_here) to see the Network Topology Builder in action.
+Check out the [demo](https://faizankhan06.github.io/Network-Topology-Builder/build/) to see the Network Topology Builder in action.
 
 ## Features
 
