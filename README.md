@@ -30,7 +30,7 @@ git clone https://github.com/FaizanKhan06/Network-Topology-Builder.git
 ### Navigate to the Project Directory
 
 ```bash
-cd Network-Topology-Diagram-Builder
+cd Network-Topology-Builder
 ```
 
 ### Install Dependencies
