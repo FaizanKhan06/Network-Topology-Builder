@@ -14,7 +14,13 @@ export default function MenuBtn(props) {
         console.log('Uploaded JSON data:', uploadedData);
         setJsonData(uploadedData);
         const encodedData = encodeURIComponent(JSON.stringify(uploadedData));
-        const urlWithQuery = `${window.location.href.split("?")[0]}/?data=${encodedData}`;
+        const urlHeader = window.location.href.split("?")[0];
+        var urlWithQuery;
+        if(urlHeader[urlHeader.length - 1] === '/'){
+          urlWithQuery = `${window.location.href.split("?")[0].slice(0,-1)}/?data=${encodedData}`;
+        }else{
+          urlWithQuery = `${window.location.href.split("?")[0]}/?data=${encodedData}`;
+        }
         console.log(urlWithQuery);
         window.history.pushState(null, null, urlWithQuery);
         window.location.reload();
