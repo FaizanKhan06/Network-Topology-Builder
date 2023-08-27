@@ -24,7 +24,7 @@ Follow these steps to get a local copy of the Network Topology Builder and run i
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/FaizanKhan06/Network-Topology-Diagram-Builder.git
+git clone https://github.com/FaizanKhan06/Network-Topology-Builder.git
 ```
 
 ### Navigate to the Project Directory
