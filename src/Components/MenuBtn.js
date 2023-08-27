@@ -14,7 +14,7 @@ export default function MenuBtn(props) {
         console.log('Uploaded JSON data:', uploadedData);
         setJsonData(uploadedData);
         const encodedData = encodeURIComponent(JSON.stringify(uploadedData));
-        const urlWithQuery = `${window.location.origin}/?data=${encodedData}`;
+        const urlWithQuery = `${window.location.href.split("?")[0]}/?data=${encodedData}`;
         console.log(urlWithQuery);
         window.history.pushState(null, null, urlWithQuery);
         window.location.reload();

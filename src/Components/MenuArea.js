@@ -113,7 +113,7 @@ export default function MenuArea(props) {
   };
 
   const handleNewMenuClick = () => {
-    const urlWithQuery = `${window.location.origin}`;
+    const urlWithQuery = `${window.location.href.split("?")[0]}`;
     console.log(urlWithQuery);
     window.history.pushState(null, null, urlWithQuery);
     window.location.reload();
