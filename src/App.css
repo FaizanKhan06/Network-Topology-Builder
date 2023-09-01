@@ -66,9 +66,6 @@ textarea:focus{
   outline: none;
   border: none;
 }
-textarea::placeholder{
-  color: var(--primary_color3);
-}
 
 
 /* Customize the scrollbar track */
@@ -97,6 +94,8 @@ textarea::placeholder{
   overflow-y: auto;
   padding-bottom: 10px;
   z-index: 9999;
+  padding-right: 6px;
+  overflow-x: hidden;
 }
 .main_area{
   flex: 1;
@@ -129,18 +128,6 @@ textarea::placeholder{
 .Collapsible{
   width: 95%;
 }
-.side_bar_collapsible_header{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  background-color: rgba(68,70,84,1);
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
-}
-.side_bar_collapsible_header:hover{
-  background-color: rgba(52,53,65,1);
-}
 .collapsibleArrowBtn{
   margin-left: auto;
 }
@@ -161,7 +148,7 @@ textarea::placeholder{
   align-items: center;
 }
 .side_bar_collapsed_btn:hover{
-  background-color: rgba(68,70,84,1);
+  background-color: var(--primary_color1);
 }
 .icon_space_side_bar{
   margin-right: 5px;
@@ -211,6 +198,7 @@ textarea::placeholder{
   stroke-width: 4px;
   fill: none;
   transition: stroke 0.3s ease-out;
+  stroke-linecap: round;
 }
 .line:hover{
   stroke: #4effbb;
@@ -334,6 +322,9 @@ textarea::placeholder{
 .cursor_crosshair{
   cursor: crosshair;
 }
+.cursor_move{
+  cursor: move;
+}
 
 /*Network Node*/
 .netWorkNode{
@@ -456,5 +447,48 @@ label.input_field_file input[type="file"] {
   position: relative;
   background: var(--primary_color3);
   background-size: 25px 25px;
+}
+.grid_design{
   background-image: linear-gradient(to right, #20212354 1px, transparent 1px), linear-gradient(to bottom, #20212354 1px, transparent 1px);
+}
+
+.display_none{
+  display: none;
+}
+
+#diagram-name-field{
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--primary_color3);
+  padding: 15px;
+  width: 250px;
+  color: var(--menu_btn_color);
+}
+#diagram-name-field:focus{
+  outline: none;
+  border: none;
+}
+
+
+
+
+/*Line designs*/
+.solid-line{
+  stroke-dasharray: 0;
+}
+.dotted-line{
+  stroke-dasharray: 0,8;
+}
+.dashed-line{
+  stroke-dasharray: 5,8;
+}
+.dashed-dotted-line{
+  stroke-dasharray: 8,8,1,8;
+}
+
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

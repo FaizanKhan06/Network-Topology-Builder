@@ -1,0 +1,142 @@
+[
+    {
+      "header": "Routers",
+      "icon": "RouterOutlinedIcon",
+      "inside": [
+        {
+          "header": "Wired Router",
+          "icon": "RouterOutlinedIcon",
+          "color": "red",
+          "inside": {
+            "btns": ["1", "2", "3"]
+          }
+        },
+        {
+          "header": "Wireless Router",
+          "icon": "RouterOutlinedIcon",
+          "inside": [
+            {
+              "header": "Wireless Router Type-A",
+              "icon": "RouterOutlinedIcon",
+              "inside": {
+                "btns": ["1", "2"]
+              }
+            },
+            {
+              "header": "Wireless Router Type-B",
+              "icon": "RouterOutlinedIcon",
+              "inside": {
+                "btns": ["1", "2"]
+              }
+            }
+          ]
+        },
+        {
+          "header": "Edge Router",
+          "icon": "RouterOutlinedIcon",
+          "inside": {
+            "btns": ["1", "2", "3"]
+          }
+        },
+        {
+          "header": "Core Router",
+          "icon": "RouterOutlinedIcon",
+          "inside": {
+            "btns": ["1", "2", "3"]
+          }
+        }
+      ]
+    },
+    {
+      "header": "Switches",
+      "icon": "ToggleOnIcon",
+      "inside": {
+        "btns": ["1", "2", "3"]
+      }
+    },
+    {
+      "header": "Phones",
+      "icon": "PhoneIphoneIcon",
+      "inside": {
+        "btns": ["1", "2", "3"]
+      }
+    },
+    {
+      "header": "Cameras",
+      "icon": "CameraAltOutlinedIcon",
+      "inside": [
+        {
+          "header": "Dome Cameras",
+          "icon": "CameraAltOutlinedIcon",
+          "inside": {
+            "btns": ["1", "2"]
+          }
+        },
+        {
+          "header": "Regular Cameras",
+          "icon": "CameraAltOutlinedIcon",
+          "inside": {
+            "btns": ["1", "2"]
+          }
+        }
+      ]
+    },
+    {
+      "header": "Computer",
+      "icon": "ComputerOutlinedIcon",
+      "inside": {
+        "btns": ["1", "2", "3"]
+      }
+    },
+    {
+      "header": "Printers",
+      "icon": "LocalPrintshopOutlinedIcon",
+      "inside": {
+        "btns": ["1", "2", "3"]
+      }
+    },
+    {
+      "header": "Hub",
+      "icon": "HubOutlinedIcon",
+      "inside": {
+        "btns": ["1", "2", "3"]
+      }
+    },
+    {
+      "header": "Cloud/Internet",
+      "icon": "CloudOutlinedIcon",
+      "inside": {
+        "btns": ["1", "2", "3"]
+      }
+    },
+    {
+      "header": "FireWall",
+      "icon": "WallpaperOutlinedIcon",
+      "inside": {
+        "btns": ["1", "2", "3"]
+      }
+    },
+    {
+      "header": "Wireless Access Point",
+      "icon": "RssFeedOutlinedIcon",
+      "inside": {
+        "btns": ["1", "2", "3"]
+      }
+    },
+    {
+      "header": "Server",
+      "color": "green",
+      "icon": "DnsOutlinedIcon",
+      "inside": {
+        "btns": ["1", "2", "3"]
+      }
+    },
+    {
+      "header": "Custom Node",
+      "icon": "testIcon",
+      "inside": {
+        "btns": ["1", "2", "3"]
+      }
+    }
+]
+  

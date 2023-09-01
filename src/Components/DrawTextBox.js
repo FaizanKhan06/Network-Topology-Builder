@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Rnd } from 'react-rnd/lib/';
-import ComponentMenuBtn from './ComponentMenuBtn';
+
+import Menu from '@mui/material/Menu';
+import ContextButton from './ContextButton';
+
+import ContextMenuSelect from './ContextMenuSelect';
+import Divider from '@mui/material/Divider';
 
 export default function DrawTextBox(props){
 
@@ -24,11 +29,19 @@ export default function DrawTextBox(props){
     }
   }, [isDragging]);
 
+  const [coords,setCoords] = useState({x:JSON.parse(props.data.x),y:JSON.parse(props.data.y)});
+  const [size,setSize] = useState({width:JSON.parse(props.data.width),height:JSON.parse(props.data.height)});
+
   const handleDragStart = () => {
     setIsDragging(true);
   };
-  const handleDragStop = () => {
+  const handleDragStop = (e,d) => {
     setIsDragging(false);
+    setCoords({x:d.x,y:d.y});
+  };
+  const handleResizeStop = (e, direction, ref, delta, position) => {
+    setSize({width:ref.offsetWidth,height:ref.offsetHeight});
+    setCoords({x:position.x,y:position.y});
   };
 
 
@@ -36,26 +49,78 @@ export default function DrawTextBox(props){
     divRef.current.parentNode.remove();
   }
 
-  const [alignText,setAlignText] = useState(props.textAlign);
-  const leftAlignComponent = (event) => {
-    setAlignText("leftAlignText")
+  const [contextMenu, setContextMenu] = React.useState(null);
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+    setContextMenu(
+      contextMenu === null
+        ? {
+            mouseX: event.clientX + 2,
+            mouseY: event.clientY - 6,
+          }
+        : 
+          null,
+    );
+  };
+  const handleClose = () => {
+    setContextMenu(null);
+  };
+
+
+  const background = {
+    color:'var(--primary_color2)',
+    backgroundColor:'var(--menu_btn_color)',
   }
-  const centerAlignComponent = (event) => {
-    setAlignText("centerAlignText")
-  }
-  const rightAlignComponent = (event) => {
-    setAlignText("rightAlignText")
-  }
+  const non_background = {
+    color:'var(--menu_btn_color)',
+    backgroundColor:'transparent',
+  };
+
+  const [selectedTextBoxStyleOption,setSelectedTextBoxStyleOption] = useState(props.data.boxstyle);
+  const [selectedTextboxStyle, setSelectedTextBoxStyle] = useState((props.data.boxstyle==='background')?background:non_background);
+  const TextBoxStyle = [
+    { value: 'background', label: 'With Background' },
+    { value: 'non_background', label: 'Without Background' },
+  ];
+  const handleDataFromTextBoxStyle = (data) => {
+    setSelectedTextBoxStyleOption(data);
+    if(data==='background') setSelectedTextBoxStyle(background);
+    else setSelectedTextBoxStyle(non_background);
+  };
+  
+  const [alignText,setAlignText] = useState(props.data.alignment);
+  const Alignment = [
+    { value: 'leftAlignText', label: 'Left' },
+    { value: 'centerAlignText', label: 'Center' },
+    { value: 'rightAlignText', label: 'Right' },
+  ];
+  const handleDataFromAlignmentStyle = (data) => {
+    setAlignText(data);
+  };
 
   return (
-    <Rnd default={{x: props.data.x,y: props.data.y, width: props.data.width, height: props.data.height}} bounds="window" enableResizing={true} onDragStart={handleDragStart} onDragStop={handleDragStop}>
-      <div ref={divRef} style={{width:"100%",height:"100%",display:'flex'}} onContextMenu={props.onRightClick}>
-        <textarea ref={cursor_ref} type='text' placeholder='Enter Text' onClick={props.onClick} className={`draw_textBox ${alignText}`} value={inputValue} onChange={handleInputChange}/>
-        <ComponentMenuBtn removeComponent={removeComponent} translate_pos={"translate_80_-80"}/>
-        <ComponentMenuBtn removeComponent={leftAlignComponent} btn_icon={"format_align_left"} translate_pos={"translate_80_-50"}/>
-        <ComponentMenuBtn removeComponent={centerAlignComponent} btn_icon={"format_align_center"} translate_pos={"translate_80_-20"}/>
-        <ComponentMenuBtn removeComponent={rightAlignComponent} btn_icon={"format_align_right"} translate_pos={"translate_80_10"}/>
+    <Rnd default={{x: coords.x,y: coords.y, width: size.width, height: size.height}} bounds="window" disableDragging={props.isViewMode} enableResizing={!props.isViewMode} onDragStart={handleDragStart} onDragStop={handleDragStop} onResizeStop={handleResizeStop}>
+      <div ref={divRef} style={{width:"100%",height:"100%",display:'flex'}} onContextMenu={handleContextMenu}>
+        <textarea data-x={coords.x} data-y={coords.y} data-width={size.width} data-height={size.height} data-alignment={alignText} data-boxstyle={selectedTextBoxStyleOption} data-text={inputValue}
+                  style={Object.assign({}, selectedTextboxStyle, {border:(props.isViewMode)?'none':'1px dashed gray'})} ref={cursor_ref} type='text' placeholder='Enter Text' onClick={props.onClick} className={`draw_textBox ${alignText} ${(props.isViewMode)?'pointer_event_none':'pointer_event_all'}`} value={inputValue} onChange={handleInputChange}/>
       </div>
+      { !props.isViewMode?
+        <Menu
+          open={contextMenu !== null}
+          onClose={handleClose}
+          anchorReference="anchorPosition"
+          anchorPosition={contextMenu !== null? { top: contextMenu.mouseY+10, left: contextMenu.mouseX }: undefined}
+        >
+
+          <ContextMenuSelect sx={{width:210}} heading={'Design'} options={TextBoxStyle} selectedOption={selectedTextBoxStyleOption} sendDataToParent={handleDataFromTextBoxStyle}/>
+          <ContextMenuSelect sx={{width:210}} heading={'Alignment'} options={Alignment} selectedOption={alignText} sendDataToParent={handleDataFromAlignmentStyle}/>
+          <Divider/>
+          <ContextButton handleClose={handleClose} handleClickEvent={removeComponent} name='Remove Component' type='remove'/>
+        
+        </Menu>
+        :
+        ''
+      }
     </Rnd>
   );
 };

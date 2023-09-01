@@ -1,19 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Rnd } from 'react-rnd/lib/';
-import ComponentMenuBtn from './ComponentMenuBtn';
+
+import Menu from '@mui/material/Menu';
+import ContextButton from './ContextButton';
+import { MenuItem } from '@mui/material';
+
+import Select from '@mui/material/Select';
+
+import Tooltip from '@mui/material/Tooltip';
+import Divider from '@mui/material/Divider';
 
 const SmoothBezierCurve = (props) => {
 
   const startXY = useRef(null);
   const endXY = useRef(null);
-  const closeBtn = useRef(null);
   const svg_draw = useRef(null);
 
-  const [sx,setSX] = useState(props.data.startX);
-  const [sy,setSY] = useState(props.data.startY);
+  const [sx,setSX] = useState(JSON.parse(props.data.x1));
+  const [sy,setSY] = useState(JSON.parse(props.data.y1));
 
-  const [ex,setEX] = useState(props.data.endX);
-  const [ey,setEY] = useState(props.data.endY);
+  const [ex,setEX] = useState(JSON.parse(props.data.x2));
+  const [ey,setEY] = useState(JSON.parse(props.data.y2));
 
   // eslint-disable-next-line
   const [sd,setSd] = useState(props.startDirection);
@@ -43,9 +50,6 @@ const SmoothBezierCurve = (props) => {
     controlX2 = ex - (ex - sx) / 3;
     controlY2 = ey;
   }
-
-  const midX = ((sx + ex) / 2);
-  const midY = ((sy + ey) / 2);
 
   const d = `M ${sx} ${sy} ${props.isCurved?`C ${controlX1} ${controlY1}, ${controlX2} ${controlY2},`:''} ${ex} ${ey}`;
 
@@ -160,30 +164,85 @@ const SmoothBezierCurve = (props) => {
   }, [props.networkNodeData]);
   //Recent End
 
+  const divRef = useRef(null)
   const removeComponent = (event) => {
-    svg_draw.current.remove();
-    startXY.current.parentNode.remove();
-    endXY.current.parentNode.remove();
-    closeBtn.current.remove();
+    divRef.current.parentNode.remove();
   }
 
-  const handleRightClickOnLine = (event) => {
+  const [contextMenu, setContextMenu] = React.useState(null);
+  const handleContextMenu = (event) => {
     event.preventDefault();
-    closeBtn.current.classList.add("selectedShape");
-  }
+    setContextMenu(
+      contextMenu === null
+        ? {
+            mouseX: event.clientX + 2,
+            mouseY: event.clientY - 6,
+          }
+        : 
+          null,
+    );
+  };
+  const handleClose = () => {
+    setContextMenu(null);
+  };
+
+
+  const [lineType, setLineType] = useState(props.data.linetype);
+  const handleChange = (event) => {
+    setLineType(event.target.value);
+  };
+
+
+  const lineNameDictionary = {'solid-line':'Solid Line',
+                              'dashed-line':'Dashed Line',
+                              'dotted-line':'Dotted Line',
+                              'dashed-dotted-line':'Dashed Dotted Line'};
 
     return (
     <>
+      <div ref={divRef} data-x1={(isStartPointAttached)?startPointAttachedPos.x:startPos.x} data-y1={(isStartPointAttached)?startPointAttachedPos.y:startPos.y}
+           data-x2={(isEndPointAttached)?endPointAttachedPos.x:endPos.x} data-y2={(isEndPointAttached)?endPointAttachedPos.y:endPos.y}
+           data-linetype={lineType}  className={`${(props.isCurved)?'curve_line_element':'straight_line_element'}`}>
         <svg ref={svg_draw}  width="100%" height="100%" style={{position:"absolute",top:"0px",left:"0px",pointerEvents:"none", transform: "translate(8px, 8px)"}}>
-          <path className='line cursor_pointer pointer_event_all' d={d} onContextMenu={handleRightClickOnLine}/>
+        {
+          props.isViewMode ? 
+          <Tooltip title={lineNameDictionary[lineType]} followCursor>
+            <path className={`line cursor_pointer pointer_event_all ${lineType}`} d={d} onContextMenu={handleContextMenu}/>
+          </Tooltip>
+          :
+          <path className={`line cursor_pointer ${(props.isViewMode)?'pointer_event_none':'pointer_event_all'} ${lineType}`} d={d} onContextMenu={handleContextMenu}/>
+        }
         </svg>
-        <Rnd default={{x: sx,y: sy}} position={(isStartPointAttached)?startPointAttachedPos:startPos} disableDragging={isStartPointAttached} bounds="window" enableResizing={false} onDrag={handleOnDrag("StartPoint")} onDragStop={handleOnDragStop("StartPoint")}>
-          <div ref={startXY} className='line_end_points cursor_crosshair pointer_event_all'></div>
+        <Rnd default={{x: sx,y: sy}} position={(isStartPointAttached)?startPointAttachedPos:startPos} disableDragging={(props.isViewMode)?props.isViewMode:isStartPointAttached} bounds="window" enableResizing={false} onDrag={handleOnDrag("StartPoint")} onDragStop={handleOnDragStop("StartPoint")}>
+          <div onContextMenu={handleContextMenu} ref={startXY} className={`line_end_points cursor_crosshair pointer_event_all ${(props.isViewMode)?'display_none':''}`}></div>
         </Rnd>
-        <Rnd default={{x: ex,y: ey}} position={(isEndPointAttached)?endPointAttachedPos:endPos} disableDragging={isEndPointAttached} bounds="window" enableResizing={false} onDrag={handleOnDrag("EndPoint")} onDragStop={handleOnDragStop("EndPoint")}>
-          <div ref={endXY} className='line_end_points cursor_crosshair pointer_event_all'></div>
+        <Rnd default={{x: ex,y: ey}} position={(isEndPointAttached)?endPointAttachedPos:endPos} disableDragging={(props.isViewMode)?props.isViewMode:isEndPointAttached} bounds="window" enableResizing={false} onDrag={handleOnDrag("EndPoint")} onDragStop={handleOnDragStop("EndPoint")}>
+          <div onContextMenu={handleContextMenu} ref={endXY} className={`line_end_points cursor_crosshair pointer_event_all ${(props.isViewMode)?'display_none':''}`}></div>
         </Rnd>
-        <ComponentMenuBtn ref={closeBtn} style={{left:midX,top:midY,right:"auto", transform:"none"}} removeComponent={removeComponent} translate_pos={"translate_150_-150"}/>
+        {
+          !props.isViewMode ?
+          <Menu
+            open={contextMenu !== null}
+            onClose={handleClose}
+            anchorReference="anchorPosition"
+            anchorPosition={contextMenu !== null? { top: contextMenu.mouseY+10, left: contextMenu.mouseX }: undefined}
+          >
+            <MenuItem> 
+              <Select sx={{fontSize: 14,width:173}} value={lineType} onChange={handleChange} inputProps={{ 'aria-label': 'Without label' }} >
+                <MenuItem value={'solid-line'}>Solid Line</MenuItem>
+                <MenuItem value={'dashed-line'}>Dashed Line</MenuItem>
+                <MenuItem value={'dotted-line'}>Dotted Line</MenuItem>
+                <MenuItem value={'dashed-dotted-line'}>Dashed Dotted Line</MenuItem>
+              </Select>
+            </MenuItem>
+            <Divider/>
+            <ContextButton handleClose={handleClose} handleClickEvent={removeComponent} name='Remove Component' type='remove'/>
+          
+          </Menu>
+          :
+          ''
+        }
+      </div>
     </>
   );
 };

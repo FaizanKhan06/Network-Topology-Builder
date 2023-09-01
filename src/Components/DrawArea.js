@@ -3,6 +3,7 @@ import SmoothBezierCurve from './SmoothBezierCurve';
 import DrawShape from './DrawShape';
 import DrawTextBox from './DrawTextBox';
 import NetWorkNode from './NetWorkNode';
+import DrawCustomImages from './DrawCustomImages';
 
 export default function DrawArea(props) {
   const selectedShape = (event) => {
@@ -74,27 +75,9 @@ export default function DrawArea(props) {
       }
     }
   });
-  
-  const handleRightClickOnShape = (event) => {
-    event.preventDefault();
-    event.target.children[1].classList.add("selectedShape");
-  }
 
   const handleRightClickOnDrawDiv = (event) => {
     event.preventDefault();
-  }
-  
-  const handleRightClickOnTextBox = (event) => {
-    event.preventDefault();
-    event.target.parentNode.children[1].classList.add("rightClickComponet");
-    event.target.parentNode.children[2].classList.add("rightClickComponet");
-    event.target.parentNode.children[3].classList.add("rightClickComponet");
-    event.target.parentNode.children[4].classList.add("rightClickComponet");
-  }
-
-  const handleRightClickOnNetworkNode = (divRef) => (event) => {
-    event.preventDefault();
-    divRef.current.children[3].classList.add("selectedShape");
   }
 
 
@@ -109,36 +92,43 @@ export default function DrawArea(props) {
 
           <div className='container_elements pointer_event_none' id='rect_container'>
             {props.addRect.map(data => (
-              <DrawShape key={data.key} data={data} shape={"draw_rect"} onClick={selectedShape} onRightClick={handleRightClickOnShape}/>
+              <DrawShape key={data.key} data={data} shape={"draw_rect"} onClick={selectedShape} isViewMode={props.isViewMode}/>
             ))}
           </div>
 
           <div className='container_elements pointer_event_none' id='circle_container'>
             {props.addCircle.map(data => (
-              <DrawShape key={data.key} data={data} shape={"draw_circle"} onClick={selectedShape} onRightClick={handleRightClickOnShape}/>
+              <DrawShape key={data.key} data={data} shape={"draw_circle"} onClick={selectedShape} isViewMode={props.isViewMode}/>
+            ))}
+          </div>
+
+          <div className='container_elements pointer_event_none' id='custom_image_container'>
+            {props.addCustomImage.map(data => (
+              <DrawCustomImages key={data.key} data={data} isViewMode={props.isViewMode}/>
             ))}
           </div>
 
           <div className='container_elements pointer_event_none' id='line_container'>
             {props.addLine.map(data => (
-              <SmoothBezierCurve key={data.key} data={data} isCurved={true} networkNodeData={networkNodeData}/>
+              <SmoothBezierCurve key={data.key} data={data} isCurved={true} networkNodeData={networkNodeData} isViewMode={props.isViewMode}/>
             ))}
           </div>
+          
           <div className='container_elements pointer_event_none' id='straingLine_container'>
             {props.addStraingtLine.map(data => (
-              <SmoothBezierCurve key={data.key} data={data} isCurved={false} networkNodeData={networkNodeData}/>
+              <SmoothBezierCurve key={data.key} data={data} isCurved={false} networkNodeData={networkNodeData} isViewMode={props.isViewMode}/>
             ))}
           </div>
 
           <div className='container_elements pointer_event_none' id='textBox_container'>
             {props.addTextBox.map(data => (
-              <DrawTextBox key={data.key} data={data} onRightClick={handleRightClickOnTextBox} onClick={selectedTextBox} textAlign={'centerAlignText'}/>
+              <DrawTextBox key={data.key} data={data} onClick={selectedTextBox} isViewMode={props.isViewMode}/>
             ))}
           </div>
 
           <div className='container_elements pointer_event_none' id='netWorkNode_container'>
             {props.addNetWorkNode.map(data => (
-              <NetWorkNode key={data.key} data={data} onRightClick={handleRightClickOnNetworkNode} onClick={selectedNetworkNode} sendData={handleSendDataFromNetworkNode}/>
+              <NetWorkNode key={data.key} data={data} onClick={selectedNetworkNode} sendData={handleSendDataFromNetworkNode} isViewMode={props.isViewMode}/>
             ))}
           </div>
 
