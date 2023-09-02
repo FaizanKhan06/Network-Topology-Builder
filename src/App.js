@@ -54,6 +54,31 @@ function App() {
       setAddNetWorkNode(jsonData.network_nodes);
       setAddNetWorkNodeCount(jsonData.network_nodes.length);
 
+    }else{
+      setAddRect([]);
+      setAddRectCount(0);
+
+      setAddCircle([]);
+      setAddCircleCount(0);
+
+      
+      setCustomImage([]);
+      setCustomImageCount(0);
+      
+
+      setaddStraingtLine([]);
+      setaddStraingtLineCount(0);
+
+      setAddLine([]);
+      setAddLineCount(0);
+
+      setAddTextBox([]);
+      setAddTextBoxCount(0);
+
+      setDiagram_name('');
+
+      setAddNetWorkNode([]);
+      setAddNetWorkNodeCount(0);
     }
   }, [jsonData]);
 

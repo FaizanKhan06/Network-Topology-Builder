@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -79,6 +79,7 @@ export default function RightMenu(props) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const uploadedData = JSON.parse(e.target.result);
+        props.handleSetJsonData(null);
         props.handleSetJsonData(uploadedData);
       };
       reader.readAsText(file);
