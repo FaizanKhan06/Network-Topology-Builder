@@ -52,7 +52,7 @@ const TreeNode = (props) => {
     <div className='collapsible_wrapper'>
       <Accordion sx={{bgcolor:'rgba(68,70,84,1)',width:'100%',boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.5)'}} expanded={expanded} onChange={toggleAccordion}>
         <CustomAccordionSummary expandIcon={<ExpandMoreIcon sx={{color:'white'}} />} aria-controls="panel1a-content">
-          <IconsDictionary icon={props.icon} />
+          <IconsDictionary icon={props.icon} sx={{width:24,height:24}}/>
           <div>{props.header}</div>
         </CustomAccordionSummary>
         <AccordionDetails sx={{padding:'5px 5px'}}>

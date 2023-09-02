@@ -8,8 +8,6 @@ import Divider from '@mui/material/Divider';
 import ViewDeviceDetailsDialogue from './ViewDeviceDetailsDialogue';
 
 import Badge from '@mui/material/Badge';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 
 import { ThemeProvider, createTheme } from '@mui/material';
 import IconsDictionary from './IconsDictionary';
@@ -224,9 +222,9 @@ export default function NetWorkNode(props) {
     <Rnd ref={delRef} default={{x: JSON.parse(props.data.x),y: JSON.parse(props.data.y)}} bounds="window" enableResizing={false} disableDragging={props.isViewMode} onDragStart={(handleDragStart)} onDragStop={(handleDragStop)} onDrag={(handleOnDrag)}>
     
     <ThemeProvider theme={Maintanancetheme}>
-    <Badge anchorOrigin={{vertical: 'top',horizontal: 'left',}} invisible={!(props.isViewMode && selectedMaintainanceStatusOption)} badgeContent={<ConstructionRoundedIcon sx={{width:15,height:15}}/>} color="secondary">
+    <Badge anchorOrigin={{vertical: 'top',horizontal: 'left',}} invisible={!(props.isViewMode && selectedMaintainanceStatusOption)} badgeContent={<IconsDictionary icon={"ConstructionRoundedIcon"} sx={{width:15,height:15}}/>} color="secondary">
     <ThemeProvider theme={Healththeme}> 
-    <Badge anchorOrigin={{vertical: 'top',horizontal: 'right',}} invisible={!(props.isViewMode && selectedHealthStatusOption)} badgeContent={<CloseRoundedIcon sx={{width:15,height:15}}/>} color="secondary">
+    <Badge anchorOrigin={{vertical: 'top',horizontal: 'right',}} invisible={!(props.isViewMode && selectedHealthStatusOption)} badgeContent={<IconsDictionary icon={"CloseRoundedIcon"} sx={{width:15,height:15}}/>} color="secondary">
       
       <Tooltip onOpen={handleToolTipOpen} onClose={handleToolTipClose} disableHoverListener={!(props.isViewMode && params.length!==0)} arrow title={
         <React.Fragment>
@@ -253,7 +251,7 @@ export default function NetWorkNode(props) {
       >
       <div data-x={coords.x} data-y={coords.y} data-icon={props.data.icon} data-generatealarm={selectedGenerateAlarmOption} data-healthstatus={selectedHealthStatusOption} data-maintainancestatus={selectedMaintainanceStatusOption} data-header={props.data.header} data-name={props.data.name} data-color={color} data-params={JSON.stringify(params)}
            style={{backgroundColor:(props.isViewMode)?((selectedGenerateAlarmOption==='')?(color==='')?'':color:alarmColor[selectedGenerateAlarmOption]):(color==='')?'':color, cursor:(props.isViewMode)?'default':'move'}} ref={divRef} onContextMenu={handleContextMenu} onClick={props.onClick} className={`netWorkNode pointer_event_all selectedNetWorkNode`}>
-        <IconsDictionary icon={props.data.icon}/>
+        <IconsDictionary icon={props.data.icon} sx={{width:24,height:24}}/>
         <div className='pointer_event_none'>{props.data.header+" "+props.data.name}</div>
         <div className={`line_holder_for_node pointer_event_none ${(props.isViewMode)?'display_none':''}`}>
           <div className='top_node nodes_line pointer_event_all' ref={connectPointRefT} onMouseEnter={handleMouseEnter(connectPointRefT)} onMouseLeave={handleMouseLeave}></div>

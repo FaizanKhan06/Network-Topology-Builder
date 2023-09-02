@@ -132,7 +132,7 @@
       }
     },
     {
-      "header": "Custom Node",
+      "header": "Image Node",
       "icon": "testIcon",
       "inside": {
         "btns": ["1", "2", "3"]

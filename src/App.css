@@ -93,7 +93,7 @@ textarea:focus{
   color: white;
   overflow-y: auto;
   padding-bottom: 10px;
-  z-index: 9999;
+  z-index: 999;
   padding-right: 6px;
   overflow-x: hidden;
 }
@@ -108,7 +108,7 @@ textarea:focus{
   display: flex;
   background: var(--primary_color2);
   padding: 10px;
-  z-index: 9999;
+  z-index: 999;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
 }
 .draw_area{
@@ -491,4 +491,9 @@ label.input_field_file input[type="file"] {
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+input{
+  border: none;
+  outline: none;
 }

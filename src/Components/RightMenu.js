@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -71,6 +71,7 @@ export default function RightMenu(props) {
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
+    
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
@@ -78,24 +79,12 @@ export default function RightMenu(props) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const uploadedData = JSON.parse(e.target.result);
-        const encodedData = JSON.stringify(uploadedData);
-
-        localStorage.setItem("NetWorkTopologyData", encodedData);
-
-        const urlHeader = window.location.href.split("?")[0];
-
-        var urlWithQuery;
-        if(urlHeader[urlHeader.length - 1] === '/'){
-          urlWithQuery = `${window.location.href.split("?")[0].slice(0,-1)}/?jsonObj=NetWorkTopologyData`;
-        }else{
-          urlWithQuery = `${window.location.href.split("?")[0]}/?jsonObj=NetWorkTopologyData`;
-        }
-        window.history.pushState(null, null, urlWithQuery);
-        window.location.reload();
+        props.handleSetJsonData(uploadedData);
       };
       reader.readAsText(file);
     }
     handleClose(); 
+    
   };
 
   return (

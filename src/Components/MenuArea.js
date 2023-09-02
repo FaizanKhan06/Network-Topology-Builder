@@ -127,6 +127,7 @@ export default function MenuArea(props) {
                        handleSaveMenuClick = {handleSaveMenuClick}
                        isViewMode={props.isViewMode}
                        diagram_name={props.diagram_name}
+                       handleSetJsonData={props.handleSetJsonData}
             />
           </div>
         </div>

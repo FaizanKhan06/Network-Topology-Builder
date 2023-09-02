@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { List, ListItem, ListItemSecondaryAction, IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 import ContextButton from './ContextButton';
 import TextField from '@mui/material/TextField';
+import IconsDictionary from './IconsDictionary';
+
 
 const ListExample = (props) => {
   const [items, setItems] = useState(props.params);
@@ -60,7 +61,7 @@ const ListExample = (props) => {
             />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteItem(index)}>
-                <DeleteIcon sx={{ color: 'red' }}/>
+                <IconsDictionary icon={"DeleteIcon"} sx={{ color: 'red' }}/>
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>

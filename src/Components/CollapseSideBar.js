@@ -32,8 +32,10 @@ const CollapseSideBar = (props) => {
       <TreeNodes
         nodes={treeData}
         handle_side_bar_btn_drag_Start={props.handle_side_bar_btn_drag_Start}
-        expandedAll={expandedAll} // Pass the state to the TreeNodes component
+        expandedAll={expandedAll} 
+        isViewMode={props.isViewMode}// Pass the state to the TreeNodes component
       />
+
     </div>
   );
 };

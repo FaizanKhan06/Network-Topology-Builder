@@ -4,11 +4,12 @@ import CollapseSideBar from './CollapseSideBar';
 export default function SideBar(props) {
   return (
     <>
-    <div className='side_bar'>
+      <div className='side_bar'>
       {
-        <CollapseSideBar handle_side_bar_btn_drag_Start={props.handle_side_bar_btn_drag_Start}/>
+        <CollapseSideBar handle_side_bar_btn_drag_Start={props.handle_side_bar_btn_drag_Start} isViewMode={props.isViewMode}/>
       }
       </div>
+
     </>
   )
 }

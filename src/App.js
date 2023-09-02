@@ -7,14 +7,21 @@ import DrawArea from './Components/DrawArea';
 
 function App() {
   const [jsonData, setJsonDatas] = useState(null);
+  const handleSetJsonData = (data) => {
+    setJsonDatas(data);
+  }
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const value = queryParams.get('jsonObj');
-    const jsonString = localStorage.getItem(value);
-    if (jsonString) {
-        const parsedData = JSON.parse(jsonString);
-        setJsonDatas(parsedData);
-    }
+    const confirmUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = ''; // This is necessary for modern browsers
+      return 'Are you sure you want to leave this page?'; // Display a confirmation message
+    };
+
+    window.addEventListener('beforeunload', confirmUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', confirmUnload);
+    };
   }, []);
 
   const [diagram_name,setDiagram_name] = useState('');
@@ -154,7 +161,7 @@ function App() {
     <>
 
       <div className='main_body'>
-      <SideBar handle_side_bar_btn_drag_Start={handle_side_bar_btn_drag_Start}/>
+      <SideBar handle_side_bar_btn_drag_Start={handle_side_bar_btn_drag_Start} isViewMode={isViewMode}/>
         <div className='main_area'>
           <MenuArea 
             handleSquareMenuClick={handleSquareMenuClick} 
@@ -166,6 +173,7 @@ function App() {
             sendImageUrlToParent={sendImageUrlToParent}
             isViewMode={isViewMode}
             diagram_name={diagram_name}
+            handleSetJsonData={handleSetJsonData}
           />
           <div className={`DrawAreaContainer ${(isViewMode)?'':'grid_design'}`}>
             <DrawArea jsonData={jsonData} addRect={addRect} addCircle={addCircle} addTextBox={addTextBox} addLine={addLine} addStraingtLine={addStraingtLine} addNetWorkNode={addNetWorkNode} addCustomImage={addCustomImage} handleDrop={handleDrop} handleDragOver={handleDragOver} handleDragEnter={handleDragEnter} handleDragLeave={handleDragLeave} isViewMode={isViewMode}/>
